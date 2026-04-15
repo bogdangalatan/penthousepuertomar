@@ -190,6 +190,22 @@
     .pr-clean-note { font-size:0.75rem;color:var(--mist); }
     .pricing-footnotes { display:flex;flex-direction:column;gap:0.45rem; }
     .pr-fn { font-size:0.8rem;color:#3a7a85;margin:0;line-height:1.6; }
+
+    /* ── Mobile pricing cards (hidden on desktop) ── */
+    .pricing-mobile-cards { display:none; }
+    .pmc-card { border-radius:12px;overflow:hidden;border:0.5px solid var(--foam2);margin-bottom:1rem;background:var(--white);box-shadow:0 0 0 2px rgba(0,180,204,0.15),0 4px 16px rgba(0,144,168,0.08); }
+    .pmc-featured { border:2px solid var(--teal);box-shadow:0 0 0 2px rgba(0,180,204,0.35),0 6px 24px rgba(0,144,168,0.15); }
+    .pmc-head { padding:0.85rem 1.1rem 0.7rem;background:var(--foam);border-bottom:0.5px solid var(--foam2); }
+    .pmc-featured .pmc-head { background:var(--foam2); }
+    .pmc-season { font-size:1rem;font-weight:600;color:var(--ink);margin:0 0 4px; }
+    .pmc-badge { display:inline-block;font-size:0.65rem;font-weight:600;padding:2px 8px;border-radius:20px;letter-spacing:0.03em; }
+    .pmc-peak { background:#faeeda;color:#854f0b; }
+    .pmc-shoulder { background:var(--foam);color:var(--teal-d);border:0.5px solid var(--foam2); }
+    .pmc-off { background:#f1efe8;color:#5f5e5a; }
+    .pmc-row { display:flex;align-items:center;justify-content:space-between;padding:0.75rem 1.1rem; }
+    .pmc-row.pmc-alt { background:var(--sand); }
+    .pmc-val { font-size:1.15rem;font-weight:700;color:var(--ink); }
+    .pmc-label { font-size:0.8rem;font-weight:500;color:var(--teal-d);letter-spacing:0.02em; }
     @keyframes fadeDown { from{opacity:0;transform:translateY(-16px);}to{opacity:1;transform:translateY(0);} }
     @keyframes fadeUp { from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);} }
     .reveal { opacity:0;transform:translateY(28px);transition:opacity 0.7s ease,transform 0.7s ease; }
@@ -318,17 +334,8 @@
       .footer-bottom{flex-direction:column;gap:0.7rem;text-align:center;font-size:0.74rem;}
       .footer-nav{justify-content:center;gap:0.7rem 1.2rem;flex-wrap:wrap;}
       #pricing{padding:2.6rem 1.3rem;}
-      .pricing-table-wrap{grid-template-columns:1fr;gap:0;}
-      .pricing-labels{display:none;}
-      .pricing-seasons{grid-template-columns:1fr;gap:8px;}
-      .pricing-col{border-radius:8px;overflow:hidden;}
-      .pricing-col-head{border-radius:8px 8px 0 0!important;}
-      .pricing-cell{min-height:44px;display:flex;align-items:center;justify-content:space-between;padding:0.7rem 1rem;}
-      .pr-mob-label{display:block;flex-shrink:0;margin-right:0.5rem;}
-      .pr-val{text-align:right;}
-      .pr-note{display:none;}
-      .pricing-cell .pr-val{font-size:0.95rem;}
-      .pricing-col .pricing-cell:last-child{border-radius:0 0 8px 8px;}
+      .pricing-table-wrap{display:none;}
+      .pricing-mobile-cards{display:block;}
       .pricing-cleaning{flex-direction:column;gap:0.3rem;}
     }
     @media(max-width:420px){
@@ -574,6 +581,75 @@
 
       </div><!-- /pricing-seasons -->
     </div><!-- /pricing-table-wrap -->
+
+    <!-- Mobile-only pricing cards -->
+    <div class="pricing-mobile-cards">
+
+      <div class="pmc-card">
+        <div class="pmc-head">
+          <p class="pmc-season" data-i18n="priceSeason1Name">July</p>
+          <span class="pmc-badge pmc-peak" data-i18n="priceSeason1Sub">Peak season</span>
+        </div>
+        <div class="pmc-row pmc-alt">
+          <span class="pmc-val">&euro;1,200</span>
+          <span class="pmc-label">7-night stay</span>
+        </div>
+        <div class="pmc-row">
+          <span class="pmc-val">&euro;2,200</span>
+          <span class="pmc-label">Fortnight</span>
+        </div>
+      </div>
+
+      <div class="pmc-card pmc-featured">
+        <div class="pmc-head">
+          <p class="pmc-season" data-i18n="priceSeason2Name">August</p>
+          <span class="pmc-badge pmc-peak" data-i18n="priceSeason2Sub">Peak season</span>
+        </div>
+        <div class="pmc-row pmc-alt">
+          <span class="pmc-val">&euro;1,550</span>
+          <span class="pmc-label">7-night stay</span>
+        </div>
+        <div class="pmc-row">
+          <span class="pmc-val">&euro;2,800</span>
+          <span class="pmc-label">Fortnight</span>
+        </div>
+      </div>
+
+      <div class="pmc-card">
+        <div class="pmc-head">
+          <p class="pmc-season" data-i18n="priceSeason3Name">May&ndash;Jun &amp; Sep&ndash;Oct</p>
+          <span class="pmc-badge pmc-shoulder" data-i18n="priceSeason3Sub">Shoulder season</span>
+        </div>
+        <div class="pmc-row pmc-alt">
+          <span class="pmc-val">&euro;345</span>
+          <span class="pmc-label">3-night stay</span>
+        </div>
+        <div class="pmc-row">
+          <span class="pmc-val">&euro;720</span>
+          <span class="pmc-label">7-night stay</span>
+        </div>
+        <div class="pmc-row pmc-alt">
+          <span class="pmc-val">&euro;1,300</span>
+          <span class="pmc-label">Fortnight</span>
+        </div>
+      </div>
+
+      <div class="pmc-card">
+        <div class="pmc-head">
+          <p class="pmc-season" data-i18n="priceSeason4Name">Nov&ndash;Apr</p>
+          <span class="pmc-badge pmc-off" data-i18n="priceSeason4Sub">Off season</span>
+        </div>
+        <div class="pmc-row pmc-alt">
+          <span class="pmc-val">&euro;490</span>
+          <span class="pmc-label">7-night stay</span>
+        </div>
+        <div class="pmc-row">
+          <span class="pmc-val">&euro;880</span>
+          <span class="pmc-label">Fortnight</span>
+        </div>
+      </div>
+
+    </div><!-- /pricing-mobile-cards -->
 
     <div class="pricing-cleaning">
       <span class="pr-clean-label" data-i18n="priceCleanLabel">Cleaning fee</span>
