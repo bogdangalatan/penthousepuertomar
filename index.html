@@ -890,35 +890,39 @@
     var ADMIN_PASSWORD="Arbeloa$%16";
     var calYear,calMonth,adminUnlocked=false;
     var blockedDates=[];
-  var AT_TOKEN="patAceWS89yehXHV4.eb3e64b189936474466eece787422cb4a46981a43605247e196a685ba6b3b23e",AT_BASE="appz1xfsLZuGRmVDQ",AT_TABLE="tblLnPovuO8k9h2ev";
-  var atRecordMap={};  // maps date string -> Airtable record ID
+  var FB_URL="https://penthousepuertomar-default-rtdb.europe-west1.firebasedatabase.app";
 
-  function atFetch(cb){
-    var url="https://api.airtable.com/v0/"+AT_BASE+"/"+AT_TABLE+"?fields%5B%5D=date&pageSize=100";
-    function fetchPage(url){
-      fetch(url,{headers:{"Authorization":"Bearer "+AT_TOKEN}})
-        .then(function(r){return r.json();})
-        .then(function(data){
-          if(data.records){
-            data.records.forEach(function(rec){
-              var d=rec.fields&&rec.fields.date;
-              if(d){blockedDates.push(d);atRecordMap[d]=rec.id;}
-            });
-          }
-          if(data.offset){
-            fetchPage("https://api.airtable.com/v0/"+AT_BASE+"/"+AT_TABLE+"?fields%5B%5D=date&pageSize=100&offset="+data.offset);
-          } else {
-            if(cb)cb();
-          }
-        })
-        .catch(function(){if(cb)cb();});
-    }
-    fetchPage(url);
+  function fbFetch(cb){
+    fetch(FB_URL+"/blockedDates.json")
+      .then(function(r){return r.json();})
+      .then(function(data){
+        blockedDates=[];
+        if(data&&typeof data==="object"){
+          Object.keys(data).forEach(function(k){
+            if(data[k])blockedDates.push(data[k]);
+          });
+        }
+        console.log("Firebase loaded:",blockedDates.length,"blocked dates");
+        if(cb)cb();
+      })
+      .catch(function(err){console.error("Firebase fetch error:",err);if(cb)cb();});
   }
-    function calInit(){
+
+  function fbSave(){
+    // Convert array to object for Firebase (arrays with holes cause issues)
+    var obj={};
+    blockedDates.forEach(function(d,i){obj[i]=d;});
+    fetch(FB_URL+"/blockedDates.json",{
+      method:"PUT",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(obj)
+    }).catch(function(err){console.error("Firebase save error:",err);});
+  }
+
+  function calInit(){
     var now=new Date();calYear=now.getFullYear();calMonth=now.getMonth();
-    renderCal(); // render immediately (no blocked dates yet)
-    atFetch(function(){renderCal();}); // re-render once Airtable data arrives
+    renderCal();
+    fbFetch(function(){renderCal();});
   }
     function renderCal(){
       var months=["January","February","March","April","May","June","July","August","September","October","November","December"];
@@ -952,50 +956,16 @@
     }
     function toggleDate(ds){
     var i=blockedDates.indexOf(ds);
-    if(i===-1){
-      // Add to Airtable
-      fetch("https://api.airtable.com/v0/"+AT_BASE+"/"+AT_TABLE,{
-        method:"POST",
-        headers:{"Authorization":"Bearer "+AT_TOKEN,"Content-Type":"application/json"},
-        body:JSON.stringify({fields:{date:ds}})
-      }).then(function(r){return r.json();}).then(function(data){
-        if(data.id){atRecordMap[ds]=data.id;blockedDates.push(ds);renderCal();}
-      });
-    } else {
-      // Remove from Airtable
-      var recId=atRecordMap[ds];
-      if(recId){
-        fetch("https://api.airtable.com/v0/"+AT_BASE+"/"+AT_TABLE+"/"+recId,{
-          method:"DELETE",
-          headers:{"Authorization":"Bearer "+AT_TOKEN}
-        }).then(function(){
-          blockedDates.splice(i,1);
-          delete atRecordMap[ds];
-          renderCal();
-        });
-      } else {
-        blockedDates.splice(i,1);renderCal();
-      }
-    }
+    if(i===-1){blockedDates.push(ds);}
+    else{blockedDates.splice(i,1);}
+    fbSave();
+    renderCal();
   }
     function clearAllBlocked(){
     if(!confirm("Clear all blocked dates?"))return;
-    var ids=Object.values(atRecordMap);
-    if(ids.length===0){blockedDates=[];atRecordMap={};renderCal();return;}
-    // Airtable allows deleting up to 10 records at a time
-    var chunks=[];
-    for(var i=0;i<ids.length;i+=10)chunks.push(ids.slice(i,i+10));
-    var done=0;
-    chunks.forEach(function(chunk){
-      var qs=chunk.map(function(id){return"records[]="+id;}).join("&");
-      fetch("https://api.airtable.com/v0/"+AT_BASE+"/"+AT_TABLE+"?"+qs,{
-        method:"DELETE",
-        headers:{"Authorization":"Bearer "+AT_TOKEN}
-      }).then(function(){
-        done++;
-        if(done===chunks.length){blockedDates=[];atRecordMap={};renderCal();}
-      });
-    });
+    blockedDates=[];
+    fbSave();
+    renderCal();
   }
     function calPrev(){calMonth--;if(calMonth<0){calMonth=11;calYear--;}renderCal();}
     function calNext(){calMonth++;if(calMonth>11){calMonth=0;calYear++;}renderCal();}
