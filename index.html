@@ -181,6 +181,7 @@
     .pricing-col:first-child .pricing-cell:last-child { border-radius:0; }
     .pricing-seasons .pricing-col:first-child .pricing-cell:last-child { border-radius:0 0 0 0; }
     .pr-val { font-size:1rem;font-weight:600;color:var(--ink);margin:0; }
+    .pr-mob-label { display:none;font-size:0.72rem;font-weight:500;color:var(--teal-d);letter-spacing:0.03em;text-transform:uppercase; }
     .pr-note { font-size:0.68rem;color:var(--mist);margin:2px 0 0; }
     .pr-min { font-size:0.8rem;font-weight:500;color:var(--teal-d);margin:0; }
     .pricing-cleaning { display:flex;align-items:baseline;gap:0.9rem;flex-wrap:wrap;background:var(--foam);border-radius:8px;padding:0.9rem 1.2rem;margin-bottom:1.2rem;border-left:3px solid var(--teal); }
@@ -322,7 +323,11 @@
       .pricing-seasons{grid-template-columns:1fr;gap:8px;}
       .pricing-col{border-radius:8px;overflow:hidden;}
       .pricing-col-head{border-radius:8px 8px 0 0!important;}
-      .pricing-cell{min-height:44px;}
+      .pricing-cell{min-height:44px;display:flex;align-items:center;justify-content:space-between;padding:0.7rem 1rem;}
+      .pr-mob-label{display:block;flex-shrink:0;margin-right:0.5rem;}
+      .pr-val{text-align:right;}
+      .pr-note{display:none;}
+      .pricing-cell .pr-val{font-size:0.95rem;}
       .pricing-col .pricing-cell:last-child{border-radius:0 0 8px 8px;}
       .pricing-cleaning{flex-direction:column;gap:0.3rem;}
     }
@@ -501,16 +506,16 @@
             <p class="pr-months" data-i18n="priceSeason1Sub">Peak season</p>
             <span class="pr-badge pr-peak" data-i18n="priceBadgePeak">High demand</span>
           </div>
-          <div class="pricing-cell"><p class="pr-val">&euro;190</p></div>
+          <div class="pricing-cell"><span class="pr-mob-label" data-i18n="priceRowNight">Per night</span><p class="pr-val">&euro;190</p></div>
           <div class="pricing-cell pr-alt">
-            <p class="pr-val">&euro;1,200</p>
+            <span class="pr-mob-label" data-i18n="priceRowWeek">Weekly</span><p class="pr-val">&euro;1,200</p>
             <p class="pr-note">&euro;171/night</p>
           </div>
           <div class="pricing-cell">
-            <p class="pr-val">&euro;2,200</p>
+            <span class="pr-mob-label" data-i18n="priceRowFortnight">Fortnight</span><p class="pr-val">&euro;2,200</p>
             <p class="pr-note">&euro;157/night &middot; <span data-i18n="priceSave">save</span> 8%</p>
           </div>
-          <div class="pricing-cell pr-alt"><p class="pr-min" data-i18n="priceMin7">7 nights</p></div>
+          <div class="pricing-cell pr-alt"><span class="pr-mob-label" data-i18n="priceRowMin">Min. stay</span><p class="pr-min" data-i18n="priceMin7">7 nights</p></div>
         </div>
 
         <div class="pricing-col pricing-col-featured">
@@ -519,16 +524,16 @@
             <p class="pr-months" data-i18n="priceSeason2Sub">Peak season</p>
             <span class="pr-badge pr-peak" data-i18n="priceBadgePeak">High demand</span>
           </div>
-          <div class="pricing-cell"><p class="pr-val">&euro;240</p></div>
+          <div class="pricing-cell"><span class="pr-mob-label" data-i18n="priceRowNight">Per night</span><p class="pr-val">&euro;240</p></div>
           <div class="pricing-cell pr-alt">
-            <p class="pr-val">&euro;1,550</p>
+            <span class="pr-mob-label" data-i18n="priceRowWeek">Weekly</span><p class="pr-val">&euro;1,550</p>
             <p class="pr-note">&euro;221/night</p>
           </div>
           <div class="pricing-cell">
-            <p class="pr-val">&euro;2,800</p>
+            <span class="pr-mob-label" data-i18n="priceRowFortnight">Fortnight</span><p class="pr-val">&euro;2,800</p>
             <p class="pr-note">&euro;200/night &middot; <span data-i18n="priceSave">save</span> 10%</p>
           </div>
-          <div class="pricing-cell pr-alt"><p class="pr-min" data-i18n="priceMin7">7 nights</p></div>
+          <div class="pricing-cell pr-alt"><span class="pr-mob-label" data-i18n="priceRowMin">Min. stay</span><p class="pr-min" data-i18n="priceMin7">7 nights</p></div>
         </div>
 
         <div class="pricing-col">
@@ -537,16 +542,16 @@
             <p class="pr-months" data-i18n="priceSeason3Sub">Shoulder season</p>
             <span class="pr-badge pr-shoulder" data-i18n="priceBadgeShoulder">Coastal Reset</span>
           </div>
-          <div class="pricing-cell"><p class="pr-val">&euro;115</p></div>
+          <div class="pricing-cell"><span class="pr-mob-label" data-i18n="priceRowNight">Per night</span><p class="pr-val">&euro;115</p></div>
           <div class="pricing-cell pr-alt">
-            <p class="pr-val">&euro;720</p>
+            <span class="pr-mob-label" data-i18n="priceRowWeek">Weekly</span><p class="pr-val">&euro;720</p>
             <p class="pr-note">&euro;103/night</p>
           </div>
           <div class="pricing-cell">
-            <p class="pr-val">&euro;1,300</p>
+            <span class="pr-mob-label" data-i18n="priceRowFortnight">Fortnight</span><p class="pr-val">&euro;1,300</p>
             <p class="pr-note">&euro;93/night &middot; <span data-i18n="priceSave">save</span> 10%</p>
           </div>
-          <div class="pricing-cell pr-alt"><p class="pr-min" data-i18n="priceMin3">3 nights</p></div>
+          <div class="pricing-cell pr-alt"><span class="pr-mob-label" data-i18n="priceRowMin">Min. stay</span><p class="pr-min" data-i18n="priceMin3">3 nights</p></div>
         </div>
 
         <div class="pricing-col">
@@ -555,16 +560,16 @@
             <p class="pr-months" data-i18n="priceSeason4Sub">Off season</p>
             <span class="pr-badge pr-off" data-i18n="priceBadgeOff">Extended stay</span>
           </div>
-          <div class="pricing-cell"><p class="pr-val">&euro;80</p></div>
+          <div class="pricing-cell"><span class="pr-mob-label" data-i18n="priceRowNight">Per night</span><p class="pr-val">&euro;80</p></div>
           <div class="pricing-cell pr-alt">
-            <p class="pr-val">&euro;490</p>
+            <span class="pr-mob-label" data-i18n="priceRowWeek">Weekly</span><p class="pr-val">&euro;490</p>
             <p class="pr-note">&euro;70/night</p>
           </div>
           <div class="pricing-cell">
-            <p class="pr-val">&euro;880</p>
+            <span class="pr-mob-label" data-i18n="priceRowFortnight">Fortnight</span><p class="pr-val">&euro;880</p>
             <p class="pr-note">&euro;63/night &middot; <span data-i18n="priceSave">save</span> 10%</p>
           </div>
-          <div class="pricing-cell pr-alt"><p class="pr-min" data-i18n="priceMinContact">Contact us</p></div>
+          <div class="pricing-cell pr-alt"><span class="pr-mob-label" data-i18n="priceRowMin">Min. stay</span><p class="pr-min" data-i18n="priceMinContact">Contact us</p></div>
         </div>
 
       </div><!-- /pricing-seasons -->
